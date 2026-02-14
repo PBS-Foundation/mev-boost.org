@@ -3,72 +3,88 @@ sidebar_position: 3
 title: Installation
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Installation
 
 The most common setup is to install MEV-Boost on the same machine as the beacon client. Multiple beacon clients can use a single MEV-Boost instance. The default port is `18550`.
 
 See also [Rémy Roy's guide](https://github.com/eth-educators/ethstaker-guides/blob/main/docs/prepare-for-the-merge.md) for comprehensive instructions on installing, configuring and running MEV-Boost.
 
-## Binaries
+<Tabs>
+<TabItem value="binaries" label="Binaries" default>
 
 Each release includes binaries for Linux, Windows and macOS. You can find the latest release at:
 
-👉 [https://github.com/flashbots/mev-boost/releases](https://github.com/flashbots/mev-boost/releases)
+**[https://github.com/flashbots/mev-boost/releases](https://github.com/flashbots/mev-boost/releases)**
 
-## From Source
+1. Download the binary for your platform from the latest release
+2. Make it executable: `chmod +x mev-boost`
+3. Verify it works:
+
+```bash
+./mev-boost -help
+```
+
+</TabItem>
+<TabItem value="source" label="From Source">
 
 Requires [Go 1.18+](https://go.dev/doc/install).
 
-### go install
-
-Install the latest MEV-Boost release:
+**Option A: `go install`**
 
 ```bash
 go install github.com/flashbots/mev-boost@latest
 mev-boost -help
 ```
 
-### Clone and Build
-
-Ensure you are downloading the most updated MEV-Boost release. Releases are available at [https://github.com/flashbots/mev-boost/releases](https://github.com/flashbots/mev-boost/releases).
+**Option B: Clone and Build**
 
 ```bash
-# By default, the develop branch includes ongoing merged PRs for a future release.
 git clone https://github.com/flashbots/mev-boost.git
 cd mev-boost
 
-# You can use the stable branch, which is always updated with the latest released version
+# Use the stable branch (always the latest released version)
 git checkout stable
 
-# If you want to build a specific release, check out the tag.
-# See also https://github.com/flashbots/mev-boost/releases
-git checkout tags/YOUR_VERSION
+# Or check out a specific release tag
+# git checkout tags/YOUR_VERSION
 
-# Build most recent version of MEV-Boost
+# Build
 make build
 
-# Show help. This confirms MEV-Boost is able to start.
+# Verify
 ./mev-boost -help
 ```
 
-## From Docker Image
+</TabItem>
+<TabItem value="docker" label="Docker">
 
-MEV-Boost Docker images are maintained at [https://hub.docker.com/r/flashbots/mev-boost](https://hub.docker.com/r/flashbots/mev-boost).
+MEV-Boost Docker images are maintained at [hub.docker.com/r/flashbots/mev-boost](https://hub.docker.com/r/flashbots/mev-boost).
 
 1. [Install Docker Engine](https://docs.docker.com/engine/install/)
 2. Pull and run the latest image:
 
 ```bash
-# Get the MEV-Boost image
 docker pull flashbots/mev-boost:latest
 
-# Run it
 docker run flashbots/mev-boost -help
 ```
 
-## Systemd Configuration
+Run with relay configuration:
 
-You can run MEV-Boost as a systemd service. Create the file `/etc/systemd/system/mev-boost.service`:
+```bash
+docker run flashbots/mev-boost \
+    -mainnet \
+    -relay-check \
+    -relays YOUR_RELAY_URL
+```
+
+</TabItem>
+<TabItem value="systemd" label="Systemd Service">
+
+Run MEV-Boost as a systemd service. Create `/etc/systemd/system/mev-boost.service`:
 
 ```ini
 [Unit]
@@ -93,7 +109,7 @@ ExecStart=/home/mev-boost/bin/mev-boost \
 WantedBy=multi-user.target
 ```
 
-Then enable and start the service:
+Then enable and start:
 
 ```bash
 sudo systemctl daemon-reload
@@ -107,3 +123,6 @@ Check the status:
 sudo systemctl status mev-boost
 sudo journalctl -u mev-boost -f
 ```
+
+</TabItem>
+</Tabs>

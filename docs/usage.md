@@ -153,7 +153,7 @@ The Timing Games feature allows MEV-Boost to optimize block proposal by strategi
 This feature is strictly meant for advanced users. Extra care should be taken when setting up timing game parameters.
 :::
 
-For detailed configuration options, parameters, and visual diagrams, see [docs/timing-games.md](https://github.com/flashbots/mev-boost/blob/develop/docs/timing-games.md).
+For detailed configuration options, parameters, and visual diagrams, see the [Timing Games](./timing-games) documentation.
 
 ## test-cli
 

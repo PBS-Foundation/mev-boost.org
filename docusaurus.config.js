@@ -35,6 +35,12 @@ const config = {
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
+  markdown: {
+    mermaid: true,
+  },
+
+  themes: ['@docusaurus/theme-mermaid', '@easyops-cn/docusaurus-search-local'],
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -52,6 +58,7 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/flashbots/mev-boost.org/tree/main/',
+
         },
         blog: false,
         theme: {
@@ -65,15 +72,26 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: 'img/logo.png',
+      image: 'img/mev-boost.png',
+      announcementBar: {
+        id: 'fusaka_upgrade',
+        content: '⚡ <b>MEV-Boost v1.10</b> is required for the Fusaka upgrade — <a href="/releases">view release notes</a>',
+        backgroundColor: '#1a1a2e',
+        textColor: '#00e5ff',
+        isCloseable: true,
+      },
       colorMode: {
         respectPrefersColorScheme: true,
+      },
+      mermaid: {
+        theme: { light: 'neutral', dark: 'dark' },
       },
       navbar: {
         title: 'mev-boost',
         logo: {
           alt: 'mev-boost',
           src: 'img/logo.png',
+          srcDark: 'img/logo.png',
         },
         items: [
           {
@@ -145,6 +163,7 @@ const config = {
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
+        additionalLanguages: ['bash', 'ini', 'yaml', 'json'],
       },
     }),
 };

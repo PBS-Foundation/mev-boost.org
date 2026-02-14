@@ -25,6 +25,8 @@ With MEV-Boost, validators can access blocks from a marketplace of builders. Bui
 
 PoS node operators must run three pieces of software: a **validator client**, a **consensus client**, and an **execution client**. MEV-Boost is a sidecar for the beacon node — a separate piece of open source software, which queries and outsources block-building to a network of builders.
 
+![MEV-Boost Integration Overview](/img/mev-boost-integration-overview.png)
+
 ### Block Flow
 
 1. **Block builders** prepare full blocks, optimizing for MEV extraction and fair distribution of rewards. They submit their blocks to relays.
@@ -34,24 +36,33 @@ PoS node operators must run three pieces of software: a **validator client**, a 
 
 ### Sequence Diagram
 
-```
-Validator starts up
-  → consensus client calls registerValidator on mev-boost
-  → mev-boost forwards registerValidator to relays
+```mermaid
+sequenceDiagram
+    participant CL as Consensus Client
+    participant MB as MEV-Boost
+    participant R as Relays
+    participant B as Builders
 
-Wait for allocated slot
-  → consensus client calls getHeader on mev-boost
-  → mev-boost calls getHeader on all connected relays
-  → relays respond with their best bid
-  → mev-boost verifies responses and selects the best payload
-  → mev-boost returns the best header to the consensus client
+    Note over CL,B: 1. Validator Startup
+    CL->>MB: registerValidator
+    MB->>R: registerValidator
 
-Consensus client signs the header
-  → consensus client calls submitBlindedBlock on mev-boost
-  → mev-boost identifies the payload source relay
-  → mev-boost forwards submitBlindedBlock to that relay
-  → relay validates the signature and returns the full block
-  → mev-boost returns the block to the consensus client
+    Note over CL,B: 2. Wait for Slot
+    B->>R: submitBlock (with bid)
+    CL->>MB: getHeader
+    MB->>R: getHeader (to all relays)
+    R-->>MB: bid responses
+    MB->>MB: verify & select best bid
+    MB-->>CL: best execution payload header
+
+    Note over CL,B: 3. Block Proposal
+    CL->>CL: sign header
+    CL->>MB: submitBlindedBlock
+    MB->>R: submitBlindedBlock
+    R->>R: validate signature
+    R-->>MB: full execution payload
+    MB-->>CL: full block
+    CL->>CL: broadcast block
 ```
 
 ## Who Can Run MEV-Boost?
