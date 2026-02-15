@@ -90,8 +90,8 @@ const config = {
         title: 'mev-boost',
         logo: {
           alt: 'mev-boost',
-          src: 'img/logo.png',
-          srcDark: 'img/logo.png',
+          src: 'img/logo_square.png',
+          srcDark: 'img/logo_square.png',
         },
         items: [
           {
