@@ -16,18 +16,27 @@
  */
 const sidebars = {
   docsSidebar: [
-    'index',
-    'how-it-works',
-    'installation',
-    'usage',
-    'timing-games',
-    'security-audit',
-    'relays',
-    'builders',
-    'faq',
-    'troubleshooting',
-    'releases',
-    'resources',
+    {
+      type: 'category',
+      label: 'Getting Started',
+      collapsed: false,
+      items: ['index', 'how-it-works', 'installation'],
+    },
+    {
+      type: 'category',
+      label: 'Configuration',
+      items: ['usage', 'timing-games'],
+    },
+    {
+      type: 'category',
+      label: 'Ecosystem',
+      items: ['relays', 'builders'],
+    },
+    {
+      type: 'category',
+      label: 'Reference',
+      items: ['faq', 'troubleshooting', 'security-audit', 'releases', 'resources'],
+    },
   ],
 };
 
