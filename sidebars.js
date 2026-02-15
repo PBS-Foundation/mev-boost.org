@@ -29,13 +29,19 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Ecosystem',
-      items: ['relays', 'builders'],
+      label: 'Help',
+      items: ['faq', 'troubleshooting'],
     },
     {
       type: 'category',
+      label: 'Ecosystem',
+      items: ['relays', 'builders'],
+    },
+    
+    {
+      type: 'category',
       label: 'Reference',
-      items: ['faq', 'troubleshooting', 'security-audit', 'releases', 'resources'],
+      items: ['security-audit', 'releases', 'resources'],
     },
   ],
 };
