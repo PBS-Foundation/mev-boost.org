@@ -39,7 +39,17 @@ const config = {
     mermaid: true,
   },
 
-  themes: ['@docusaurus/theme-mermaid', '@easyops-cn/docusaurus-search-local'],
+  themes: [
+    '@docusaurus/theme-mermaid',
+    [
+      '@easyops-cn/docusaurus-search-local',
+      ({
+        docsRouteBasePath: '/',
+        indexBlog: false,
+        hashed: true,
+      }),
+    ],
+  ],
 
   i18n: {
     defaultLocale: 'en',

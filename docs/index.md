@@ -21,20 +21,20 @@ hide_title: true
 <div className="features-grid">
 
 <div className="feature-card">
-  <div className="feature-card__icon">&#x1F50C;</div>
-  <h3>Plug & Play</h3>
+  <div className="feature-card__icon">🔌</div>
+  <h3>Plug &amp; Play</h3>
   <p>Compatible with all Ethereum consensus clients. Install, configure your relays, and start earning maximum rewards.</p>
 </div>
 
 <div className="feature-card">
-  <div className="feature-card__icon">&#x1F3D7;&#xFE0F;</div>
+  <div className="feature-card__icon">🏗️</div>
   <h3>Builder Market</h3>
   <p>Access blocks from a competitive marketplace of builders who optimize for MEV extraction and fair reward distribution.</p>
 </div>
 
 <div className="feature-card">
-  <div className="feature-card__icon">&#x1F512;</div>
-  <h3>Open & Neutral</h3>
+  <div className="feature-card__icon">🔒</div>
+  <h3>Open &amp; Neutral</h3>
   <p>Free, open-source, and audited software. Run by thousands of validators to promote decentralization and censorship resistance.</p>
 </div>
 
