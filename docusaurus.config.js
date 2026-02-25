@@ -83,13 +83,13 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/mev-boost.png',
-      announcementBar: {
-        id: 'fusaka_upgrade',
-        content: '⚡ <b>MEV-Boost v1.10</b> is required for the Fusaka upgrade — <a href="/releases">view release notes</a>',
-        backgroundColor: '#1a1a2e',
-        textColor: '#00e5ff',
-        isCloseable: true,
-      },
+      // announcementBar: {
+      //   id: 'fusaka_upgrade',
+      //   content: '⚡ <b>MEV-Boost v1.10</b> is required for the Fusaka upgrade — <a href="/releases">view release notes</a>',
+      //   backgroundColor: '#1a1a2e',
+      //   textColor: '#00e5ff',
+      //   isCloseable: true,
+      // },
       colorMode: {
         respectPrefersColorScheme: true,
       },

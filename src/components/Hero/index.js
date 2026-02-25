@@ -50,7 +50,7 @@ export default function Hero() {
           </a>
         </div>
         <span className="hero-landing__version">
-          Latest: v1.10 (Fusaka)
+          Latest: v1.12
         </span>
       </div>
       <div className="features-section">

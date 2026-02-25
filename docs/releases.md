@@ -7,11 +7,38 @@ title: Releases
 
 All releases with binaries and full changelogs are available at [github.com/flashbots/mev-boost/releases](https://github.com/flashbots/mev-boost/releases).
 
-## v1.12-alpha1
+## v1.12
 
-### Features
+- **Docker Image**: `flashbots/mev-boost:1.12`
+- **Full Changelog**: [v1.11...v1.12](https://github.com/flashbots/mev-boost/compare/v1.11...v1.12)
 
-- **Relay multiplexing**: allows different validators to use different relay sets for `getHeader` requests ([#826](https://github.com/flashbots/mev-boost/pull/826))
+**🚀 New Feature: Relay Multiplexing**
+
+This release allows validators to be grouped into **mux groups**, each with their own relay set, timeouts, and timing game configurations via a global config file. This enables node operators running multiple validator sets to route `getHeader` requests to different relays per group.
+
+### Example Configuration
+
+```yaml
+mux:
+  - id: "lido"
+    validator_pubkeys:
+      - "0x8a1d7b..."
+    timeout_get_header_ms: 900
+    late_in_slot_time_ms: 1500
+    relays:
+      - url: https://0xpubkey@lido-relay.example.com
+        enable_timing_games: true
+          target_first_request_ms: 200
+          frequency_get_header_ms: 100
+
+  - id: "rocket-pool"
+    validator_pubkeys:
+      - "0x8d1d7b..."
+    relays:
+      - url: https://0xpubkey@rocketpool-relay.example.com
+```
+
+Docs and example config can be found [here](https://github.com/flashbots/mev-boost/blob/develop/config.example.yaml).
 
 ## v1.11
 
