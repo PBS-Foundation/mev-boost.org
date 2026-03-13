@@ -1,6 +1,7 @@
 ---
 sidebar_position: 9
 title: FAQ
+keywords: [faq, questions, help, support, validators, builders]
 ---
 
 # Frequently Asked Questions
@@ -47,13 +48,9 @@ The `fee_recipient` field should match the address you configured.
 
 ## Block Builders
 
-### How do I submit blocks as a builder?
+### I'm a builder — how do I submit blocks?
 
-See the [Builder Quickstart](./builders) guide for details on submitting blocks to Flashbots relays.
-
-### What networks can I build for?
-
-Builders can submit blocks to relays on **Mainnet**, **Sepolia**, **Holesky**, and **Hoodi** networks.
+See the [Flashbots Block Builders documentation](https://docs.flashbots.net/flashbots-mev-boost/block-builders) for details on submitting blocks to relays.
 
 ---
 

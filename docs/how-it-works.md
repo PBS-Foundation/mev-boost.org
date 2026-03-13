@@ -1,6 +1,7 @@
 ---
 sidebar_position: 2
 title: How It Works
+keywords: [PBS, proposer-builder separation, MEV, architecture, block flow, design]
 ---
 
 # How MEV-Boost Works
@@ -33,6 +34,20 @@ PoS node operators must run three pieces of software: a **validator client**, a 
 2. **Relays** aggregate blocks from multiple builders in order to select the block with the highest fees.
 3. **MEV-Boost** can be configured by a validator to connect to multiple relays.
 4. The **consensus layer client** of a validator proposes the most profitable block received from MEV-Boost to the Ethereum network for attestation and block inclusion.
+
+### Block Proposal Flow
+
+```mermaid
+flowchart LR
+    B[Builders] -->|submitBlock| R[Relays]
+    R -->|bids| MB[MEV-Boost]
+    MB -->|best header| CL[Consensus Client]
+    CL -->|signed blinded block| MB
+    MB -->|signed blinded block| R
+    R -->|full payload| MB
+    MB -->|full payload| CL
+    CL -->|broadcast| N((Ethereum Network))
+```
 
 ### Sequence Diagram
 
@@ -76,12 +91,8 @@ See also:
 
 ## Security
 
-A MEV-Boost security assessment was conducted on 2022-06-20 by [lotusbumi](https://github.com/lotusbumi). The full audit report is available [here](https://github.com/flashbots/mev-boost/blob/develop/docs/audit-20220620.md).
-
-### Bug Bounty
-
-There is a bug bounty program with rewards up to **$25,000 USD** for critical vulnerabilities. If you find a security vulnerability, please email **security@flashbots.net**. See the [SECURITY file](https://github.com/flashbots/mev-boost/blob/develop/SECURITY.md) for details.
+A MEV-Boost security assessment was conducted on 2022-06-20 by [lotusbumi](https://github.com/lotusbumi). There is an active bug bounty program with rewards up to **$25,000 USD** for critical vulnerabilities. See the [Security & Bug Bounty](./security) page for full details.
 
 ## API
 
-MEV-Boost implements the latest [Builder Specification](https://github.com/ethereum/builder-specs).
+MEV-Boost implements the latest [Builder Specification](https://github.com/ethereum/builder-specs). See the [API Reference](./api-reference) for endpoint documentation and request flow diagrams.

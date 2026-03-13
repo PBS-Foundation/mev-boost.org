@@ -1,6 +1,7 @@
 ---
 sidebar_position: 5
 title: Timing Games
+keywords: [timing games, bid optimization, getHeader, request timing, advanced]
 ---
 
 # Timing Games

@@ -1,6 +1,7 @@
 ---
-sidebar_position: 12
+sidebar_position: 18
 title: Resources
+keywords: [resources, links, community, dashboards, specifications, guides]
 ---
 
 # Resources
@@ -18,6 +19,15 @@ title: Resources
 - [mevboost.org](https://www.mevboost.org) — overview of relays and builders which produced recent blocks
 - [mevboost.pics](https://mevboost.pics) — charts and dashboards about the MEV-Boost and builder ecosystem
 - [boost-relay.flashbots.net](https://boost-relay.flashbots.net) — Flashbots mainnet MEV-Boost relay
+
+## Flashbots Ecosystem
+
+- [MEV-Boost Introduction](https://docs.flashbots.net/flashbots-mev-boost/getting-started/installation) — Official Flashbots MEV-Boost overview
+- [Architecture Overview](https://docs.flashbots.net/flashbots-mev-boost/architecture-overview/specifications) — PBS specifications and ecosystem structure
+- [Relay Fundamentals](https://docs.flashbots.net/flashbots-mev-boost/relay) — How relays facilitate builder-proposer interactions
+- [Block Builders](https://docs.flashbots.net/flashbots-mev-boost/block-builders) — Guide for block builders submitting to relays
+- [Block Proposers](https://docs.flashbots.net/flashbots-mev-boost/block-proposers) — Validator-side guide from Flashbots
+- [Flashbots FAQ](https://docs.flashbots.net/flashbots-mev-boost/FAQ) — Flashbots MEV-Boost FAQ
 
 ## Specifications
 

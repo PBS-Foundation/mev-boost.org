@@ -1,6 +1,7 @@
 ---
 sidebar_position: 4
 title: Usage
+keywords: [usage, cli, flags, relay, network, mainnet, sepolia, hoodi, min-bid]
 ---
 
 # Usage
@@ -9,7 +10,7 @@ A single MEV-Boost instance can be used by multiple beacon nodes and validators.
 
 Aside from running MEV-Boost on your local network, you must configure:
 
-- **Individual beacon nodes** to connect to MEV-Boost. Beacon node configuration varies by consensus client. Guides for each client can be found in the [Relays & Consensus Clients](./relays) section.
+- **Individual beacon nodes** to connect to MEV-Boost. Beacon node configuration varies by consensus client. See the [Consensus Client Compatibility](#consensus-client-compatibility) section below.
 - **Individual validators** to configure a preferred relay selection. Validators should take precautions to only connect to trusted relays. Read more about [the role of relays](https://docs.flashbots.net/flashbots-mev-boost/relay).
 
 :::note
@@ -32,12 +33,6 @@ Run MEV-Boost pointed at a mainnet relay:
 ./mev-boost -sepolia -relay-check -relay URL-OF-TRUSTED-RELAY
 ```
 
-### Holesky Testnet
-
-```bash
-./mev-boost -holesky -relay-check -relay URL-OF-TRUSTED-RELAY
-```
-
 ### Hoodi Testnet
 
 ```bash
@@ -55,8 +50,6 @@ Usage of mev-boost:
         shorthand for '-loglevel debug'
   -genesis-fork-version string
         use a custom genesis fork version
-  -holesky
-        use Holesky
   -hoodi
         use Hoodi
   -json
@@ -170,3 +163,26 @@ https://boost-relay.flashbots.net/relay/v1/data/validator_registration?pubkey=YO
 ```
 
 The `fee_recipient` field in the response should match the address you provided when registering your validator.
+
+## Relay List
+
+For a comprehensive list of relay URL endpoints by network and operator maintained by the community, refer to:
+
+- [Ethstaker Relay List](https://ethstaker.cc/mev-relay-list/)
+- [Lido Relay Providers](https://research.lido.fi/t/lido-on-ethereum-call-for-relay-providers/2844)
+
+Validators should take precautions to **only connect to trusted relays**. Read more about [the role of relays](https://docs.flashbots.net/flashbots-mev-boost/relay).
+
+## Consensus Client Compatibility
+
+MEV-Boost is compatible with **all consensus clients** via the standard [Ethereum Builder API](https://github.com/ethereum/builder-specs).
+
+| Consensus Client | Guide |
+|------------------|-------|
+| **Lighthouse**   | [Lighthouse MEV-Boost docs](https://lighthouse-book.sigmaprime.io/advanced_builders.html) |
+| **Lodestar**     | [Lodestar MEV-Boost docs](https://chainsafe.github.io/lodestar/run/beacon-management/mev-and-builder-integration/) |
+| **Nimbus**       | [Nimbus MEV-Boost docs](https://nimbus.guide/external-block-builder.html) |
+| **Prysm**        | [Prysm MEV-Boost docs](https://prysm.offchainlabs.com/docs/advanced/builder) |
+| **Teku**         | [Teku MEV-Boost docs](https://docs.teku.consensys.io/how-to/configure/builder-network) |
+
+For detailed testing instructions, see the [MEV-Boost testing wiki](https://github.com/flashbots/mev-boost/wiki/Testing).

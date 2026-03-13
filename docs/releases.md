@@ -1,6 +1,7 @@
 ---
-sidebar_position: 11
+sidebar_position: 17
 title: Releases
+keywords: [releases, changelog, versions, updates, v1.12, v1.11, v1.10, v1.9]
 ---
 
 # Releases

@@ -22,10 +22,10 @@ import Hero from '@site/src/components/Hero';
 ```
 
 :::tip
-Use the appropriate network flag: `-mainnet`, `-sepolia`, `-holesky`, or `-hoodi`.
+Use the appropriate network flag: `-mainnet`, `-sepolia`, or `-hoodi`.
 :::
 
-3. **Configure** your consensus client. See the [consensus client compatibility](./relays#consensus-client-compatibility) table for guides.
+3. **Configure** your consensus client. See the [consensus client compatibility](./usage#consensus-client-compatibility) table for guides.
 
 4. **Verify** your setup by calling the [Relay Data API](https://flashbots.github.io/relay-specs/) to check your validator registration.
 
@@ -33,12 +33,16 @@ Use the appropriate network flag: `-mainnet`, `-sepolia`, `-holesky`, or `-hoodi
 
 - **[How It Works](./how-it-works)** — PBS architecture and MEV-Boost design.
 - **[Installation](./installation)** — Binaries, source, Docker, systemd.
-- **[Usage](./usage)** — CLI arguments, network flags, relay config, metrics.
+- **[Usage](./usage)** — CLI arguments, network flags, relay config.
 - **[Timing Games](./timing-games)** — Advanced bid optimization via strategic request timing.
-- **[Security Audit](./security-audit)** — Audit findings and trust assumptions.
-- **[Relays & Clients](./relays)** — Relay lists and consensus client compatibility.
-- **[Builder Quickstart](./builders)** — Guide for external block builders.
+- **[Relay Multiplexing](./relay-muxing)** — Per-validator relay groups and routing.
+- **[Metrics & Monitoring](./metrics)** — Prometheus metrics, Grafana dashboards, alerting.
 - **[FAQ](./faq)** — Frequently asked questions.
 - **[Troubleshooting](./troubleshooting)** — Common issues and fixes.
+- **[Upgrading](./upgrading)** — Upgrade guide and migration notes.
+- **[Configuration Reference](./configuration-reference)** — All CLI flags, env vars, and YAML config options.
+- **[API Reference](./api-reference)** — Builder API endpoints and request flow.
+- **[Security & Bug Bounty](./security)** — Audit findings, trust assumptions, and bounty program.
 - **[Releases](./releases)** — Release history and changelogs.
+- **[Contributing](./contributing)** — Development setup and PR guidelines.
 - **[Resources](./resources)** — Community links, dashboards, and references.

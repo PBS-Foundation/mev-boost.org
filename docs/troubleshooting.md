@@ -1,6 +1,7 @@
 ---
 sidebar_position: 10
 title: Troubleshooting
+keywords: [troubleshooting, errors, debug, issues, connection, timeout, relay, systemd]
 ---
 
 # Troubleshooting
@@ -104,7 +105,7 @@ no payload received from relay!
 **Solutions**:
 - This is typically a relay-side issue, not a problem with your setup
 - Ensure you're connected to **multiple relays** so another relay can serve the payload
-- Check the [relay status pages](./relays) for known outages
+- Check relay status pages for known outages (e.g. [Flashbots Relay](https://boost-relay.flashbots.net))
 - If it happens repeatedly with a specific relay, consider removing it temporarily
 
 ### Local block proposed instead of MEV block
@@ -133,7 +134,7 @@ curl https://boost-relay.flashbots.net/relay/v1/data/validator_registration?pubk
 ```
 
 **Solutions**:
-- Ensure your consensus client has builder/MEV-Boost registration enabled (this is client-specific — see [Relays & Clients](./relays#consensus-client-compatibility))
+- Ensure your consensus client has builder/MEV-Boost registration enabled (this is client-specific — see [Consensus Client Compatibility](./usage#consensus-client-compatibility))
 - Registrations are sent periodically. Wait a few epochs after starting MEV-Boost, then check again
 - Check MEV-Boost logs for `registerValidator` entries — if you don't see them, the consensus client isn't sending registrations
 - Verify the fee recipient address is set correctly in your validator client

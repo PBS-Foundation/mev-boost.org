@@ -132,6 +132,14 @@ const config = {
                 to: '/usage',
               },
               {
+                label: 'Configuration Reference',
+                to: '/configuration-reference',
+              },
+              {
+                label: 'API Reference',
+                to: '/api-reference',
+              },
+              {
                 label: 'FAQ',
                 to: '/faq',
               },
@@ -173,7 +181,7 @@ const config = {
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
-        additionalLanguages: ['bash', 'ini', 'yaml', 'json'],
+        additionalLanguages: ['bash', 'ini', 'yaml', 'json', 'promql'],
       },
     }),
 };

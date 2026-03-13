@@ -25,23 +25,17 @@ const sidebars = {
     {
       type: 'category',
       label: 'Configuration',
-      items: ['usage', 'timing-games'],
+      items: ['usage', 'timing-games', 'relay-muxing', 'metrics'],
     },
     {
       type: 'category',
       label: 'Help',
-      items: ['faq', 'troubleshooting'],
+      items: ['faq', 'troubleshooting', 'upgrading'],
     },
-    {
-      type: 'category',
-      label: 'Ecosystem',
-      items: ['relays', 'builders'],
-    },
-    
     {
       type: 'category',
       label: 'Reference',
-      items: ['security-audit', 'releases', 'resources'],
+      items: ['configuration-reference', 'api-reference', 'security', 'releases', 'contributing', 'resources'],
     },
   ],
 };

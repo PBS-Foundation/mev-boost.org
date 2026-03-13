@@ -1,6 +1,7 @@
 ---
 sidebar_position: 3
 title: Installation
+keywords: [install, binary, source, docker, systemd, setup, go]
 ---
 
 import Tabs from '@theme/Tabs';
