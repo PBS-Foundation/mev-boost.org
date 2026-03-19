@@ -1,0 +1,33 @@
+---
+sidebar_position: 6
+title: Timing Optimizer
+keywords: [timing games, dashboard, optimization, MEV, validator rewards, configuration]
+---
+
+import TimingDashboard from '@site/src/components/TimingDashboard';
+
+# Timing Games Optimizer
+
+Use this interactive dashboard to find the optimal timing game configuration for your validator setup. Select your operator profile to get recommended settings, visualize how requests are timed within a slot, and understand the risk/reward tradeoffs.
+
+:::info Data Sources
+All data is derived from published research and public network statistics. MEV value growth, fork risk curves, and relay performance are based on empirical analyses — see sources at the bottom of the dashboard. Network stats reflect recent on-chain data from [mevboost.pics](https://mevboost.pics).
+:::
+
+:::tip
+New to timing games? Read the [Timing Games documentation](./timing-games.md) first to understand how the feature works before optimizing your settings.
+:::
+
+<TimingDashboard />
+
+## Key Takeaways
+
+1. **MEV value grows linearly** at ~5.71×10⁻⁶ ETH/ms — every millisecond of delay captures more value, but with diminishing marginal returns relative to risk.
+
+2. **Fork risk is low below 1500ms**, elevated but manageable from 1500–2500ms, and spikes sharply above 2500ms. Never set `late_in_slot_time_ms` above 2500ms.
+
+3. **Your infrastructure matters more than your config.** Efficient operators with low-latency relay connections can safely push delays higher. Home stakers should use conservative settings.
+
+4. **Use multiple relays.** Querying 3–4 relays with timing games increases the chance of capturing the best bid without adding meaningful risk.
+
+5. **Monitor your setup.** After enabling timing games, watch your missed slot rate and attestation performance for several days before increasing delays.
