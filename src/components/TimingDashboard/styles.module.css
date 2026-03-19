@@ -1,0 +1,434 @@
+/* ── Dashboard Container ─────────────────────────── */
+.dashboard {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.section {
+  margin-bottom: 2.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--ifm-color-emphasis-200);
+}
+
+/* ── Stat Cards ──────────────────────────────────── */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.statCard {
+  background: var(--fb-bg-card);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 10px;
+  padding: 1.1rem;
+  text-align: center;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 0.4rem;
+}
+
+.statValue {
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ifm-color-primary);
+}
+
+.statSublabel {
+  font-size: 0.72rem;
+  color: var(--ifm-color-emphasis-500);
+  margin-top: 0.2rem;
+}
+
+/* ── Config Grid ─────────────────────────────────── */
+.configGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* ── Profile Selector ────────────────────────────── */
+.profileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.profileCard {
+  background: var(--fb-bg-card);
+  border: 2px solid var(--ifm-color-emphasis-200);
+  border-radius: 10px;
+  padding: 1.25rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+  font-family: inherit;
+  color: inherit;
+}
+
+.profileCard:hover {
+  transform: translateY(-1px);
+  border-color: var(--ifm-color-primary-light);
+}
+
+.profileCardActive {
+  border-color: var(--ifm-color-primary);
+  background: var(--ifm-color-primary);
+  color: #fff;
+}
+
+.profileCardActive .profileDesc,
+.profileCardActive .profileMeta {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.profileLabel {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.profileDesc {
+  font-size: 0.82rem;
+  color: var(--ifm-color-emphasis-600);
+  line-height: 1.4;
+  margin-bottom: 0.6rem;
+}
+
+.profileMeta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.78rem;
+  color: var(--ifm-color-emphasis-500);
+}
+
+/* ── Risk Chart ──────────────────────────────────── */
+.chartDescription {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 1rem;
+}
+
+.riskChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+  padding: 1rem 0;
+  overflow-x: auto;
+}
+
+.riskBarContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 65px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.riskBarContainer:hover {
+  opacity: 1;
+}
+
+.riskBarSelected {
+  opacity: 1;
+}
+
+.riskBarWrapper {
+  display: flex;
+  align-items: flex-end;
+  height: 130px;
+}
+
+.riskBar {
+  width: 28px;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s;
+}
+
+.valueBar {
+  width: 100%;
+  height: 6px;
+  background: var(--ifm-color-emphasis-200);
+  border-radius: 3px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.valueBarFill {
+  height: 100%;
+  background: #22c55e;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.riskBarLabel {
+  font-size: 0.68rem;
+  font-weight: 600;
+  margin-top: 0.35rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.riskBarValue {
+  font-size: 0.62rem;
+  color: var(--ifm-color-emphasis-500);
+}
+
+/* ── Slot Timeline ───────────────────────────────── */
+.timeline {
+  background: var(--fb-bg-card);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.timelineHeader {
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.timelineTrack {
+  position: relative;
+  height: 60px;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 6px;
+  overflow: visible;
+}
+
+.timelineMarker {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timelineMarkerLine {
+  width: 1px;
+  height: 100%;
+  background: var(--ifm-color-emphasis-400);
+}
+
+.attestationLine {
+  background: #ef4444;
+  width: 2px;
+}
+
+.timelineMarkerLabel {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-600);
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+.safeZone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: rgba(34, 197, 94, 0.12);
+  border-radius: 6px 0 0 6px;
+}
+
+.dangerZone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 0 6px 6px 0;
+}
+
+.requestMarker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.requestDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ifm-color-primary);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.thresholdMarker {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  z-index: 1;
+}
+
+.thresholdLine {
+  width: 2px;
+  height: 100%;
+  background: #f97316;
+  opacity: 0.8;
+}
+
+.thresholdLabel {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: #f97316;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+.timelineLegend {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 1rem;
+  font-size: 0.72rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.legendDotGreen {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.legendDotPurple {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ifm-color-primary);
+}
+
+.legendDotRed {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+}
+
+/* ── Relay Table ─────────────────────────────────── */
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.relayTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.relayTable th {
+  text-align: left;
+  padding: 0.65rem 0.8rem;
+  border-bottom: 2px solid var(--ifm-color-emphasis-300);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.relayTable td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+/* ── Code Block ──────────────────────────────────── */
+.codeBlock {
+  position: relative;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.codeBlock pre {
+  margin: 0;
+  padding: 1.2rem;
+  overflow-x: auto;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.codeBlock code {
+  background: none;
+  padding: 0;
+}
+
+.copyButton {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: var(--ifm-color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.copyButton:hover {
+  opacity: 0.85;
+}
+
+.configHint {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 0.75rem;
+}
+
+/* ── Sources ─────────────────────────────────────── */
+.sourcesList {
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.sourcesList a {
+  color: var(--ifm-color-primary);
+}
+
+/* ── Responsive ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .profileGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .configGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .riskChart {
+    gap: 0.25rem;
+  }
+
+  .riskBarContainer {
+    min-width: 50px;
+  }
+}
