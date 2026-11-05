@@ -108,6 +108,7 @@ Each relay in a mux group supports the same fields as top-level relays:
 | Field | Required | Description |
 |-------|----------|-------------|
 | `url` | Yes | Relay URL in `scheme://pubkey@host` format. |
+| `auth_data` | No | Auth data for [ePBS](./epbs) requests. Default: the relay hostname. Unique within the mux group. |
 | `enable_timing_games` | No | Enable timing games for this relay (default: `false`). |
 | `target_first_request_ms` | No | Target time for first `getHeader` request (requires timing games). |
 | `frequency_get_header_ms` | No | Interval between subsequent requests (requires timing games). |
@@ -132,6 +133,8 @@ When a `getHeader` request arrives:
 2. If yes, it uses that group's relay set and timeout configuration.
 3. If no, it falls back to the default (top-level) relay and timeout configuration.
 4. The best bid is selected and returned as normal.
+
+On the [ePBS](./epbs) path the same lookup picks the relay set, and the request is forwarded only to the relay in that set whose `auth_data` matches. The signed beacon block is sent to every relay in the default set and every mux group.
 
 ## Hot Reloading
 

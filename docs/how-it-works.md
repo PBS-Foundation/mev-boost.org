@@ -12,7 +12,7 @@ MEV is a centralizing force on Ethereum. Unattended, the competition for MEV opp
 
 Proposer/block-builder separation (PBS) was initially proposed by Ethereum researchers as a response to the risk that MEV poses to decentralization of consensus networks. They have suggested that uncontrolled MEV extraction promotes economies of scale which are centralizing in nature, and complicate decentralized pooling.
 
-In the future, [proposer/builder separation](https://ethresear.ch/t/two-slot-proposer-builder-separation/10980) will be enshrined in the Ethereum protocol itself to further harden its trust model.
+The Gloas fork enshrines [proposer/builder separation](https://ethresear.ch/t/two-slot-proposer-builder-separation/10980) in the protocol (ePBS). MEV-Boost stays between the beacon node and the relays: each bid request names one relay, and MEV-Boost forwards it. See [ePBS (Gloas)](./epbs).
 
 Read more in [Why run MEV-Boost?](https://writings.flashbots.net/writings/why-run-mevboost/) and in the [Frequently Asked Questions](https://github.com/flashbots/mev-boost/wiki/Frequently-Asked-Questions).
 

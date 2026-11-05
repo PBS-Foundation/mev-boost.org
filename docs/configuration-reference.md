@@ -82,6 +82,8 @@ late_in_slot_time_ms: 2000
 # Default relays (used for validators not in any mux group)
 relays:
   - url: https://0xPUBKEY@relay-a.example.com
+    # ePBS auth data. Default is the hostname ("relay-a.example.com").
+    # auth_data: "relay-a.example.com"
     enable_timing_games: true
     target_first_request_ms: 200
     frequency_get_header_ms: 100
@@ -123,6 +125,7 @@ mux:
 | Field | Required | Description |
 |-------|----------|-------------|
 | `url` | Yes | Relay URL in `scheme://pubkey@host` format. |
+| `auth_data` | No | Auth data this relay expects on [ePBS](./epbs) bid and preference requests. A string or `0x`-prefixed hex. Default: the relay hostname, with no scheme, port, or public key. Every relay in a relay set needs a distinct value. |
 | `enable_timing_games` | No | Enable timing games for this relay (default: `false`). |
 | `target_first_request_ms` | No | Target time into slot for first `getHeader` request (requires timing games). |
 | `frequency_get_header_ms` | No | Interval between subsequent `getHeader` requests (requires timing games). |

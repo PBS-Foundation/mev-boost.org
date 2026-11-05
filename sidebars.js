@@ -25,7 +25,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Configuration',
-      items: ['usage', 'timing-games', 'relay-muxing', 'metrics'],
+      items: ['usage', 'timing-games', 'relay-muxing', 'epbs', 'metrics'],
     },
     {
       type: 'category',

@@ -142,6 +142,8 @@ sequenceDiagram
 
 4. **Best bid selection** — From all responses received, MEV-Boost selects the most recently received bid from each relay, then compares across relays to return the highest value bid.
 
+The same per-relay settings apply to ePBS execution-payload bids. On that path the deadline is the beacon node's, shortened by `late_in_slot_time_ms` and a fixed 50 ms margin, rather than `timeout_get_header_ms`. See [ePBS (Gloas)](./epbs).
+
 ## Further Reading
 
 - [Full example config file](https://github.com/flashbots/mev-boost/blob/develop/config.example.yaml)

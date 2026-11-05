@@ -1,7 +1,7 @@
 ---
 sidebar_position: 14
 title: API Reference
-keywords: [api, builder api, relay api, endpoints, registerValidator, getHeader, getPayload]
+keywords: [api, builder api, relay api, endpoints, registerValidator, getHeader, getPayload, epbs, gloas]
 ---
 
 # API Reference
@@ -91,6 +91,26 @@ After the consensus client signs the winning bid's header, it submits the signed
 ```bash
 curl http://localhost:18550/eth/v1/builder/status
 ```
+
+## Gloas builder API (ePBS)
+
+From the Gloas fork the beacon node calls these three endpoints. MEV-Boost serves them alongside the endpoints above. Setup, `auth_data`, and deadlines are documented in [ePBS (Gloas)](./epbs). This support is in [flashbots/mev-boost#914](https://github.com/flashbots/mev-boost/pull/914) and is not in a release yet.
+
+### `POST /eth/v1/builder/execution_payload_bid/{slot}/{parent_hash}/{parent_root}/{proposer_pubkey}`
+
+**Get one relay's execution payload bid.**
+
+The body is a `SignedBuilderRequestAuth`. MEV-Boost verifies the proposer's signature, matches `auth_data` to a single configured relay, and returns that relay's response. `Date-Milliseconds` and `X-Timeout-Ms` are required. No matching relay, or a failed signature, is `400` or `401`. No bid, or a deadline that has already passed, is `204`.
+
+### `POST /eth/v1/builder/builder_preferences/{proposer_pubkey}`
+
+**Forward proposer preferences** (`max_execution_payment` and the signed auth) to the one relay named by `auth_data`. The relay's status is returned. No answer from the relay is `500`.
+
+### `POST /eth/v1/builder/beacon_blocks`
+
+**Submit the signed beacon block** that commits to the winning bid. MEV-Boost forwards it to every configured relay and returns `202` when one accepts it. If none accept it, the response is `500`.
+
+`Eth-Consensus-Version: gloas` is required on all three. Bodies may be JSON or SSZ.
 
 ## Relay Data API
 
