@@ -108,6 +108,7 @@ Each relay in a mux group supports the same fields as top-level relays:
 | Field | Required | Description |
 |-------|----------|-------------|
 | `url` | Yes | Relay URL in `scheme://pubkey@host` format. |
+| `auth_data` | No | The `auth_data` for [Gloas](./gloas#auth-data) requests. Default: the relay hostname. Must be unique within the group. |
 | `enable_timing_games` | No | Enable timing games for this relay (default: `false`). |
 | `target_first_request_ms` | No | Target time for first `getHeader` request (requires timing games). |
 | `frequency_get_header_ms` | No | Interval between subsequent requests (requires timing games). |
@@ -133,6 +134,10 @@ When a `getHeader` request arrives:
 3. If no, it falls back to the default (top-level) relay and timeout configuration.
 4. The best bid is selected and returned as normal.
 
+### After Gloas
+
+From the Gloas fork, the same lookup picks the proposer's relay set for bid and preferences requests, and MEV-Boost forwards each request only to the relay in that set whose `auth_data` matches. A validator outside a group can't reach a relay that is only listed inside that group. The signed beacon block is sent to every relay in the top-level list and in every group. See [Gloas (ePBS)](./gloas#relay-multiplexing).
+
 ## Hot Reloading
 
 Mux configuration supports hot reloading with the `-watch-config` flag. This allows you to add or modify mux groups without restarting MEV-Boost:
@@ -149,6 +154,7 @@ When the config file changes, MEV-Boost reloads the mux group definitions, relay
 - **Default relays still matter** — Validators not in any mux group use the top-level `relays` list, so make sure it's configured.
 - **Test with `-relay-check`** — Use the `-relay-check` flag to verify all relay URLs (in all groups) are reachable on startup.
 - **Use meaningful IDs** — Group IDs appear in logs, making it easier to debug relay behavior per group.
+- **Distinct `auth_data` per group** — Within one group, each relay needs a different [Gloas `auth_data`](./gloas#uniqueness), or the config fails to load. The same relay can appear in several groups.
 
 ## Further Reading
 

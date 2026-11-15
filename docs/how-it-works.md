@@ -12,7 +12,7 @@ MEV is a centralizing force on Ethereum. Unattended, the competition for MEV opp
 
 Proposer/block-builder separation (PBS) was initially proposed by Ethereum researchers as a response to the risk that MEV poses to decentralization of consensus networks. They have suggested that uncontrolled MEV extraction promotes economies of scale which are centralizing in nature, and complicate decentralized pooling.
 
-In the future, [proposer/builder separation](https://ethresear.ch/t/two-slot-proposer-builder-separation/10980) will be enshrined in the Ethereum protocol itself to further harden its trust model.
+The Gloas fork enshrines [proposer/builder separation](https://ethresear.ch/t/two-slot-proposer-builder-separation/10980) in the Ethereum protocol itself (ePBS) to further harden its trust model. MEV-Boost keeps working after Gloas, see [After Gloas (ePBS)](#after-gloas-epbs).
 
 Read more in [Why run MEV-Boost?](https://writings.flashbots.net/writings/why-run-mevboost/) and in the [Frequently Asked Questions](https://github.com/flashbots/mev-boost/wiki/Frequently-Asked-Questions).
 
@@ -80,6 +80,27 @@ sequenceDiagram
     CL->>CL: broadcast block
 ```
 
+### After Gloas (ePBS)
+
+The flow above is the pre-Gloas builder API. From the Gloas fork, the proposer commits to a builder's signed execution payload bid in its beacon block, and the winning builder reveals the payload afterwards:
+
+1. The **validator client** lists a builder entry per relay, each pointing at MEV-Boost with that relay's `auth_data`.
+2. The **beacon node** sends one bid request per entry. **MEV-Boost** checks the proposer's signature and forwards each request to the one relay whose `auth_data` matches.
+3. The **beacon node** compares the bids, signs a block committing to the best one, and sends it back. MEV-Boost passes the signed block to the relays, and the winning builder reveals the payload.
+
+```mermaid
+flowchart LR
+    CL[Consensus Client] -->|bid request per relay| MB[MEV-Boost]
+    MB -->|matched by auth_data| R[Relay]
+    R -->|signed bid| MB
+    MB -->|signed bid| CL
+    CL -->|signed beacon block| MB
+    MB -->|signed beacon block| Rs[All relays]
+    CL -->|broadcast| N((Ethereum Network))
+```
+
+See [Gloas (ePBS)](./gloas) for setup and details.
+
 ## Who Can Run MEV-Boost?
 
 MEV-Boost is a piece of software that any PoS Ethereum node operator (including solo validators) can run as part of their Beacon Client software. It is compatible with any Ethereum consensus client.
@@ -95,4 +116,4 @@ A MEV-Boost security assessment was conducted on 2022-06-20 by [lotusbumi](https
 
 ## API
 
-MEV-Boost implements the latest [Builder Specification](https://github.com/ethereum/builder-specs). See the [API Reference](./api-reference) for endpoint documentation and request flow diagrams.
+MEV-Boost implements the latest [Builder Specification](https://github.com/ethereum/builder-specs), including the Gloas (ePBS) endpoints. See the [API Reference](./api-reference) for endpoint documentation and request flow diagrams.

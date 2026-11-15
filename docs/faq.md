@@ -36,6 +36,18 @@ Yes. It is recommended to connect to multiple relays for redundancy and to maxim
 
 The `-min-bid` flag sets a minimum bid threshold. If no builder bid meets this threshold, MEV-Boost will not return a bid and the beacon node will fall back to local block production. This helps ensure you only use builder blocks when they provide meaningful additional value.
 
+### What changes with Gloas (ePBS)?
+
+The Gloas fork enshrines proposer-builder separation in the protocol. The beacon node stops calling `getHeader` and `submitBlindedBlock` and calls new endpoints instead. It sends one bid request per relay, picks the best bid itself, and MEV-Boost forwards each request to the relay it names. MEV-Boost serves both APIs, so the same instance works before and after the fork. See [Gloas (ePBS)](./gloas).
+
+### Do I need to change my setup for Gloas?
+
+Yes. MEV-Boost needs a release with Gloas support, and in the validator client each key needs a builder entry per relay: `url` set to MEV-Boost and `auth_data` set to that relay's hostname as hex. See [Setup](./gloas#setup).
+
+### Does `-min-bid` still work after Gloas?
+
+Only for the pre-Gloas flow. From Gloas, the beacon node compares bids, so the minimum bid is set as `min_bid` on the builder entries in the validator client.
+
 ### How do I verify my setup is working?
 
 Query the [Relay Data API](https://flashbots.github.io/relay-specs/) to check your validator registration:

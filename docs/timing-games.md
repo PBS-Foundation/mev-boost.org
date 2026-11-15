@@ -1,7 +1,7 @@
 ---
 sidebar_position: 5
 title: Timing Games
-keywords: [timing games, bid optimization, getHeader, request timing, advanced]
+keywords: [timing games, bid optimization, getHeader, request timing, advanced, gloas, epbs]
 ---
 
 # Timing Games
@@ -141,6 +141,16 @@ sequenceDiagram
 3. **Send multiple requests** — If `frequency_get_header_ms` is set, MEV-Boost sends multiple requests at that interval until the budget is exhausted.
 
 4. **Best bid selection** — From all responses received, MEV-Boost selects the most recently received bid from each relay, then compares across relays to return the highest value bid.
+
+## Gloas (ePBS)
+
+From the Gloas fork, the same per-relay settings apply to execution payload bid requests. The consensus client sends one bid request per relay, so timing games run against the one relay the request is for, and no bids are compared across relays. The differences:
+
+- **Budget** — The deadline is the consensus client's (`Date-Milliseconds` + `X-Timeout-Ms`), capped at `late_in_slot_time_ms` into the slot, minus a fixed 50 ms margin. `timeout_get_header_ms` is not used.
+- **Bid returned** — MEV-Boost returns the bid from the most recently **sent** request that returned one, so a slow early response can't replace a newer bid.
+- **Last request** — No new request starts within one `frequency_get_header_ms` of the deadline.
+
+See [Gloas (ePBS)](./gloas#deadlines-and-timing-games).
 
 ## Further Reading
 

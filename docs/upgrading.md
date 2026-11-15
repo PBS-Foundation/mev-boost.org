@@ -58,12 +58,26 @@ MEV-Boost **must** be updated before Ethereum network upgrades (hard forks). Run
 
 | Network Upgrade | Date | Minimum MEV-Boost Version |
 |-----------------|------|---------------------------|
+| Glamsterdam (Gloas) | Not scheduled | Not released yet, see [Gloas (ePBS)](./gloas) |
 | Fusaka | Dec 3, 2025 (epoch 411392) | v1.10 |
 | Pectra | — | v1.9 |
 
 :::warning
 Always upgrade MEV-Boost **before** a scheduled hard fork. After the fork, an outdated version will fail to produce valid blocks.
 :::
+
+## Preparing for Gloas (ePBS)
+
+Gloas support ([flashbots/mev-boost#914](https://github.com/flashbots/mev-boost/pull/914)) is not in a release yet. When you upgrade to the release that includes it:
+
+- **Pre-Gloas behavior is unchanged.** The existing endpoints, flags and config keep working until the fork.
+- **New optional YAML field `auth_data`** on each relay, for relays that ask for a value other than their hostname.
+- **Relays sharing an `auth_data` stop startup.** If two relays in one relay set have the same hostname (for example two relays on one host with different ports), MEV-Boost refuses to start until you give them distinct `auth_data` values in the YAML config.
+- **Configure the validator client before the fork.** Each validator key needs a builder entry per relay, with `url` set to MEV-Boost and `auth_data` set to the relay's hostname as hex. Without these entries the beacon node does not request bids through MEV-Boost after the fork.
+- **`-min-bid` does not apply to Gloas bids.** Set `min_bid` on the validator client's builder entries instead.
+- **`timeout_get_header_ms` does not apply to Gloas bids.** The deadline comes from the beacon node's `X-Timeout-Ms`, capped by `late_in_slot_time_ms` and `-request-timeout-getheader`.
+
+See [Gloas (ePBS)](./gloas) for the full setup.
 
 ## Version History and Migration Notes
 
