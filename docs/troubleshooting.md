@@ -151,6 +151,57 @@ This happens when:
 
 This is **expected behavior** — your validator will still propose blocks, just without MEV rewards.
 
+## Gloas (ePBS) Issues
+
+### Every bid request is rejected with `400`
+
+**Symptom**: MEV-Boost logs `rejecting request` with `auth data does not match any configured relay`.
+
+The `auth_data` in the request matches no relay in the proposer's relay set.
+
+**Solutions**:
+- Set `auth_data` on every validator client builder entry that points at MEV-Boost. Without it, the validator client derives it from MEV-Boost's own address (for example `127.0.0.1`), which matches no relay
+- Check that the value is the hex of the relay's hostname, or of the `auth_data` set for that relay in the YAML config. See [Auth Data](./gloas#auth-data)
+- If the validator is in a [mux group](./relay-muxing), the relay must be listed in that group
+
+### Other `4xx` responses on Gloas endpoints
+
+| Error | Cause |
+|-------|-------|
+| `Eth-Consensus-Version header must be gloas` (`400`) | The consensus client did not send `Eth-Consensus-Version: gloas`. |
+| `missing or invalid Date-Milliseconds or X-Timeout-Ms header` (`400`) | A bid request is missing the deadline headers. |
+| `auth slot does not match the request slot` (`400`) | The signed auth is for a different slot than the path. |
+| `auth slot has already passed` (`400`) | Builder preferences were sent for a past slot. |
+| `request auth signature verification failed` (`401`) | The auth was not signed by the proposer key in the path, or for a different network. |
+| `415 Unsupported Media Type` | The body is neither `application/json` nor `application/octet-stream`. |
+
+### MEV-Boost fails to start: "builders share the same auth data"
+
+**Symptom**: MEV-Boost exits on startup, or rejects a hot-reloaded config, with `builders share the same auth data`.
+
+Two relays in the same relay set have the same `auth_data`, usually two relays on the same host with different ports.
+
+**Solution**: Set a distinct `auth_data` on each of them in the YAML config, and use those values in the validator client. See [Uniqueness](./gloas#uniqueness).
+
+### Bid requests return `204`
+
+**Symptom**: The beacon node gets no bid through MEV-Boost.
+
+**Solutions**:
+- `proposer deadline already passed` in the logs means the request arrived too late, or the beacon node's deadline was too short. Check for clock drift on both machines
+- `relay error response` or `error calling relay` means the relay failed or timed out. Check the relay's status and latency
+- A relay can also return `204` itself when it has no bid for the slot
+
+### Signed beacon block returns `500`
+
+**Symptom**: `beacon_blocks` returns `500`.
+
+No configured relay accepted the block. MEV-Boost sends the block to every configured relay, and only the relay whose bid won can accept it, so a `500` means that relay rejected the block, failed, or did not answer within `-request-timeout-getpayload`.
+
+**Solutions**:
+- Look for `relay error response` or `error calling relay` in the MEV-Boost logs, and check the relay's status
+- The beacon node gossips the block itself either way, but the builder needs the block from its relay to reveal the payload
+
 ## Version & Upgrade Issues
 
 ### Required upgrades for network forks
@@ -159,6 +210,7 @@ MEV-Boost must be updated before Ethereum network upgrades (hard forks). Running
 
 | Network Upgrade | Minimum Version |
 |-----------------|-----------------|
+| Glamsterdam (Gloas) | Not released yet, see [Gloas (ePBS)](./gloas) |
 | Fusaka          | v1.10           |
 | Pectra          | v1.9            |
 

@@ -31,9 +31,9 @@ Complete reference for all MEV-Boost configuration options: CLI flags, environme
 | `-color` | `false` | Enable colored output for text log format. |
 | `-log-no-version` | `false` | Disable adding the version to every log entry. |
 | `-log-service` | — | Add a `service=...` tag to all log messages. |
-| `-request-timeout-getheader` | `950` | Timeout for `getHeader` requests to relays (milliseconds). |
-| `-request-timeout-getpayload` | `4000` | Timeout for `getPayload` requests to relays (milliseconds). |
-| `-request-timeout-regval` | `3000` | Timeout for `registerValidator` requests to relays (milliseconds). |
+| `-request-timeout-getheader` | `950` | Timeout for `getHeader` requests to relays (milliseconds). Also caps Gloas execution payload bid requests. |
+| `-request-timeout-getpayload` | `4000` | Timeout for `getPayload` requests to relays (milliseconds). Also used for Gloas signed beacon blocks. |
+| `-request-timeout-regval` | `3000` | Timeout for `registerValidator` requests to relays (milliseconds). Also used for Gloas builder preferences. |
 | `-version` | — | Print version and exit. |
 
 ## Environment Variables
@@ -82,6 +82,8 @@ late_in_slot_time_ms: 2000
 # Default relays (used for validators not in any mux group)
 relays:
   - url: https://0xPUBKEY@relay-a.example.com
+    # Gloas auth data. Default: the hostname, "relay-a.example.com".
+    # auth_data: "relay-a.example.com"
     enable_timing_games: true
     target_first_request_ms: 200
     frequency_get_header_ms: 100
@@ -115,14 +117,15 @@ mux:
 
 | Field | Default | Description |
 |-------|---------|-------------|
-| `timeout_get_header_ms` | `950` | Maximum timeout for `getHeader` requests (ms). |
-| `late_in_slot_time_ms` | `2000` | Safety threshold — skip relay requests if this many ms into the slot. |
+| `timeout_get_header_ms` | `950` | Maximum timeout for `getHeader` requests (ms). Not used for Gloas bids. |
+| `late_in_slot_time_ms` | `2000` | Safety threshold — skip relay requests if this many ms into the slot. For Gloas bids, the latest point in the slot the bid deadline can reach. |
 
 #### Relay Fields
 
 | Field | Required | Description |
 |-------|----------|-------------|
 | `url` | Yes | Relay URL in `scheme://pubkey@host` format. |
+| `auth_data` | No | The `auth_data` this relay expects on [Gloas](./gloas#auth-data) bid and preferences requests, as a string or `0x`-prefixed hex. Default: the relay hostname. Must be unique within a relay set. |
 | `enable_timing_games` | No | Enable timing games for this relay (default: `false`). |
 | `target_first_request_ms` | No | Target time into slot for first `getHeader` request (requires timing games). |
 | `frequency_get_header_ms` | No | Interval between subsequent `getHeader` requests (requires timing games). |
@@ -162,7 +165,7 @@ scheme://pubkey@host
 
 - **scheme** — `http` or `https` (always use `https` in production).
 - **pubkey** — The relay's public key, used to verify relay identity.
-- **host** — The relay's hostname and optional port.
+- **host** — The relay's hostname and optional port. The hostname is also the relay's default [Gloas `auth_data`](./gloas#auth-data).
 
 Example:
 

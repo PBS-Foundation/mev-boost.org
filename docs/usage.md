@@ -117,6 +117,10 @@ These two commands are equivalent:
 
 The `-min-bid` flag allows setting a minimum bid value. If no bid from the builder network delivers at least this value, MEV-Boost will not return a bid to the beacon node, making it fall back to local block production.
 
+:::note
+`-min-bid` applies to the pre-Gloas `getHeader` flow only. From the Gloas fork, the minimum bid is set as `min_bid` on each builder entry in the validator client, and the beacon node applies it. See [Gloas (ePBS)](./gloas#2-add-builder-entries-to-the-validator-client).
+:::
+
 Example for setting a minimum bid value of 0.06 ETH:
 
 ```bash
@@ -148,6 +152,12 @@ This feature is strictly meant for advanced users. Extra care should be taken wh
 
 For detailed configuration options, parameters, and visual diagrams, see the [Timing Games](./timing-games) documentation.
 
+## Gloas (ePBS)
+
+From the Gloas fork, the beacon node sends one bid request per relay, and MEV-Boost forwards each request to the relay whose `auth_data` matches. The relay flags above stay the same, but each validator key also needs a builder entry per relay in the validator client, with `url` set to MEV-Boost and `auth_data` set to that relay's hostname as hex.
+
+See [Gloas (ePBS)](./gloas) for the full setup.
+
 ## test-cli
 
 `test-cli` is a utility to execute all proposer requests against MEV-Boost + relay. See the [test-cli README](https://github.com/flashbots/mev-boost/blob/develop/cmd/test-cli/README.md).
@@ -176,6 +186,8 @@ Validators should take precautions to **only connect to trusted relays**. Read m
 ## Consensus Client Compatibility
 
 MEV-Boost is compatible with **all consensus clients** via the standard [Ethereum Builder API](https://github.com/ethereum/builder-specs).
+
+From the Gloas fork, each client also needs builder entries in its validator client config. See your client's guide for how to set `url` and `auth_data`, and [Gloas (ePBS)](./gloas#2-add-builder-entries-to-the-validator-client).
 
 | Consensus Client | Guide |
 |------------------|-------|

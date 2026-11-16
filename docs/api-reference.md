@@ -1,7 +1,7 @@
 ---
 sidebar_position: 14
 title: API Reference
-keywords: [api, builder api, relay api, endpoints, registerValidator, getHeader, getPayload]
+keywords: [api, builder api, relay api, endpoints, registerValidator, getHeader, getPayload, gloas, epbs, execution payload bid]
 ---
 
 # API Reference
@@ -10,7 +10,7 @@ MEV-Boost implements the [Ethereum Builder API Specification](https://ethereum.g
 
 ## Builder API (Consensus Client to MEV-Boost)
 
-These endpoints are called by the consensus client and handled by MEV-Boost.
+These endpoints are called by the consensus client and handled by MEV-Boost before the Gloas fork. From Gloas, the consensus client calls the [Gloas builder API](#gloas-builder-api-epbs) instead. MEV-Boost serves both.
 
 ### `POST /eth/v1/builder/validators`
 
@@ -90,6 +90,78 @@ After the consensus client signs the winning bid's header, it submits the signed
 
 ```bash
 curl http://localhost:18550/eth/v1/builder/status
+```
+
+## Gloas Builder API (ePBS)
+
+From the Gloas fork, the consensus client calls these endpoints instead of `registerValidator`, `getHeader` and `submitBlindedBlock`. All three require the `Eth-Consensus-Version: gloas` header and accept JSON (`application/json`) or SSZ (`application/octet-stream`) bodies up to 10 MiB. See [Gloas (ePBS)](./gloas) for setup, `auth_data` and deadlines.
+
+### `POST /eth/v1/builder/execution_payload_bid/{slot}/{parent_hash}/{parent_root}/{proposer_pubkey}`
+
+**Get one relay's execution payload bid.**
+
+The consensus client sends one request per builder entry. The body is a `SignedBuilderRequestAuth`, signed by the proposer, whose `data` is the `auth_data` of the relay the request is for. MEV-Boost verifies the signature, matches `auth_data` to one relay in the proposer's relay set, and forwards the request unchanged.
+
+**Required headers**: `Date-Milliseconds` and `X-Timeout-Ms`, the consensus client's deadline.
+
+```json
+{
+  "message": {
+    "data": "0x626f6f73742d72656c61792e666c617368626f74732e6e6574",
+    "slot": "1234567"
+  },
+  "signature": "0x1b66ac1fb663c9bc..."
+}
+```
+
+**Response**: `200` with the relay's signed execution payload bid, or `204` when there is no bid (the relay returned none, failed, or the deadline passed). Invalid requests and an `auth_data` that matches no relay return `400`, and an invalid signature returns `401`.
+
+### `POST /eth/v1/builder/builder_preferences/{proposer_pubkey}`
+
+**Submit proposer preferences** to one relay.
+
+The body holds `preferences` (`max_execution_payment`) and a signed `auth`, routed by `auth_data` like a bid request. Preferences for a slot that has already passed are rejected with `400`.
+
+**Response**: The relay's response, or `500` if the relay fails or doesn't answer.
+
+### `POST /eth/v1/builder/beacon_blocks`
+
+**Submit the signed beacon block** that commits to the winning bid.
+
+MEV-Boost forwards the block to every configured relay, including all mux groups. Only the relay whose bid won accepts it, and its builder then reveals the payload.
+
+**Response**: `202` when one relay accepts the block, `500` if none does. The consensus client gossips the block itself either way.
+
+### Gloas Request Flow
+
+```mermaid
+sequenceDiagram
+    participant V as Validator Client
+    participant CL as Consensus Client
+    participant MB as MEV-Boost
+    participant R as Relay
+
+    Note over V,R: Setup
+    V->>CL: Builder entries (url = MEV-Boost, auth_data = relay)
+
+    Note over V,R: Before the slot
+    CL->>MB: POST /eth/v1/builder/builder_preferences/{pubkey}
+    MB->>R: POST /eth/v1/builder/builder_preferences/{pubkey}
+    R-->>MB: Status
+    MB-->>CL: Status
+
+    Note over V,R: Proposal (repeated per builder entry)
+    CL->>MB: POST /eth/v1/builder/execution_payload_bid/...
+    MB->>R: POST /eth/v1/builder/execution_payload_bid/...
+    R-->>MB: Signed execution payload bid
+    MB-->>CL: Signed execution payload bid
+
+    CL->>CL: Pick the best bid, sign beacon block
+    CL->>MB: POST /eth/v1/builder/beacon_blocks
+    MB->>R: POST /eth/v1/builder/beacon_blocks (every relay)
+    R-->>MB: 202
+    MB-->>CL: 202
+    CL->>CL: Broadcast block
 ```
 
 ## Relay Data API
@@ -193,5 +265,6 @@ sequenceDiagram
 ## Specifications
 
 - [Builder API Specification](https://ethereum.github.io/builder-specs) — The full Ethereum Builder API spec.
+- [Builder API Specification, Gloas](https://github.com/ethereum/builder-specs/tree/main/specs/gloas) — The Gloas (ePBS) endpoints.
 - [Relay API Specification](https://flashbots.github.io/relay-specs/) — Flashbots relay-specific API extensions.
 - [Relay Data API](https://flashbots.github.io/relay-specs/) — Data endpoints for querying relay activity.
